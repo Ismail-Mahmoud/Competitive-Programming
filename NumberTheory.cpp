@@ -8,6 +8,9 @@
   * GCD (Greatest Common Divisor)
   * LCM (Least Common Multiple)
   * Co-primes
+  * Factorial
+  * Power
+  * Modular Arithmetic
   */
 
 #include <bits/stdc++.h>
@@ -154,6 +157,60 @@ bool coprimes(lld a, lld b){
     return __gcd(a, b) == 1;
 }
 
+//n! = n * (n-1) * (n-2) .... * 1
+//n! = n * (n-1)!
+lld fact[N];
+void calcFactorial(){
+    fact[0] = 1;
+    for(int i = 1; i <= 10; ++i){
+        fact[i] = i * fact[i-1];
+    }
+}
+/// Number of trailing zeros in n! ?? (n <= 1e6)
+/// Each zero comes from 10 (2 * 5)
+/// Number of 2 = n/2 + n/4 + n/8 ...
+/// Number of 5 = n/5 + n/25 + n/125 ...
+/// ans = min(Number of 2, number of 5)
+/// Observation? ans = Number of 5
+/// Can you solve it in any base?
+
+
+//3^8 ((3^2)^4) = 9^4 = 81^2 = (6561)^1
+//3^9 = 3 * 9^4
+//ret = 1
+//3^9, ret = 3
+//9^4, ret = 3
+//81^2, ret = 3
+//6561^1, ret = 3*6561
+
+lld power(lld b, lld po, lld mod){       /// O(log(n))
+    lld ret = 1;
+    while(po){
+        if(po & 1) ret = (ret * b) % mod;
+        b = (b * b) % mod;
+        po >>= 1;
+    }
+    return ret;
+}
+
+
+//(a + b) % m = ((a % m) + (b % m)) % m
+//(a - b) % m = ((a % m) - (b % m) + m) % m
+//(a * b) % m = ((a % m) * (b % m)) % m
+//(a ^ b) % m = ((a % m) ^ b) % m           (a and m aren't co-primes)
+//(a ^ b) % p = (a ^ (b % (p-1))) % p       (a and p are co-primes) (Derived from Fermat's Little Theorem: (a^(p-1)) % p = 1)
+//
+//1/3 is the multiplicative inverse of 3 (in Real Numbers)
+//x * mulInv(x) = 1
+//5 is the multiplicative inverse of 3 (mod 7), because (3 * 5) % 7 = 1
+//(36 / 3) % 7 = 5
+//(36 * 5) % 7 = 5
+
+/// If x and mod aren't co-primes, then x has no multiplicative inverse in mod
+lld mulInv(lld x, lld mod){
+    return power(x, mod - 2, mod);  // Also derived from Fermat's Little Theorem
+}
+
 int main()
 {
     /*
@@ -212,6 +269,14 @@ int main()
     cout << LCM(10, 15) << endl;
     cout << coprimes(4, 9) << endl;
     cout << coprimes(10, 15) << endl;
+    */
+    /*
+    calcFactorial();
+    cout << fact[5] << endl;
+    cout << power(3, 8, 10000000) << endl;
+    cout << power(3, 9, 10000000) << endl;
+    cout << (36 / 3) % 7 << endl;
+    cout << (36 * mulInv(3, 7)) % 7;
     */
     return 0;
 }
