@@ -122,7 +122,7 @@ void Goldbach(int n){
 vector<pair<int, int>> factors;
 void getFactors(int n){
     int tmp = n, num_divisors = 1;
-    for(int p = 2; p * p <= n; ++p){
+    for(int p = 2; p * p <= n; ++p){    /// O(sqrt(n))
         int e = 0;  // power
         while(tmp % p == 0){
             ++e;
@@ -183,7 +183,7 @@ void calcFactorial(){
 //81^2, ret = 3
 //6561^1, ret = 3*6561
 
-lld power(lld b, lld po, lld mod){       /// O(log(n))
+lld power(lld b, lld po, lld mod){      /// O(log(po))
     lld ret = 1;
     while(po){
         if(po & 1) ret = (ret * b) % mod;
@@ -207,7 +207,7 @@ lld power(lld b, lld po, lld mod){       /// O(log(n))
 //(36 * 5) % 7 = 5
 
 /// If x and mod aren't co-primes, then x has no multiplicative inverse in mod
-lld mulInv(lld x, lld mod){
+lld mulInv(lld x, lld mod){			/// O(log(mod))
     return power(x, mod - 2, mod);  // Also derived from Fermat's Little Theorem
 }
 
