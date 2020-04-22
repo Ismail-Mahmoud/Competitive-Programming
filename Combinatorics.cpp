@@ -96,7 +96,7 @@ int main()
     lld C[103][103];
     /// C(n, k) = C(n-1, k-1) + C(n-1, k)
     /* Pascal's Triangle, i = row, j = col */
-    for(int i = 1; i <= 100; ++i){  /// O(log(n^2))
+    for(int i = 1; i <= 100; ++i){  /// O(n^2)
         C[i][0] = C[i][i] = 1;
         for(int j = 1; j < i; ++j){
             C[i][j] = (C[i-1][j-1] + C[i-1][j]) % MOD;
