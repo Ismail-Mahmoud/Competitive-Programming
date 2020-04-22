@@ -122,9 +122,9 @@ void Goldbach(int n){
 vector<pair<int, int>> factors;
 void getFactors(int n){
     int tmp = n, num_divisors = 1;
-    for(int p = 2; p * p <= n; ++p){    /// O(sqrt(n))
+    for(int p = 2; p * p <= n; ++p){
         int e = 0;  // power
-        while(tmp % p == 0){
+        while(tmp % p == 0){    /// O(sqrt(n))
             ++e;
             tmp /= p;
         }
@@ -183,7 +183,7 @@ void calcFactorial(){
 //81^2, ret = 3
 //6561^1, ret = 3*6561
 
-lld power(lld b, lld po, lld mod){      /// O(log(po))
+lld power(lld b, lld po, lld mod){       /// O(log(po))
     lld ret = 1;
     while(po){
         if(po & 1) ret = (ret * b) % mod;
@@ -194,12 +194,15 @@ lld power(lld b, lld po, lld mod){      /// O(log(po))
 }
 
 
-//(a + b) % m = ((a % m) + (b % m)) % m
-//(a - b) % m = ((a % m) - (b % m) + m) % m
-//(a * b) % m = ((a % m) * (b % m)) % m
-//(a ^ b) % m = ((a % m) ^ b) % m           (a and m aren't co-primes)
-//(a ^ b) % p = (a ^ (b % (p-1))) % p       (a and p are co-primes) (Derived from Fermat's Little Theorem: (a^(p-1)) % p = 1)
-//
+/**
+(a + b) % m = ((a % m) + (b % m)) % m
+(a - b) % m = ((a % m) - (b % m) + m) % m
+(a * b) % m = ((a % m) * (b % m)) % m
+(a ^ b) % m = ((a % m) ^ b) % m           (a and m aren't co-primes)
+(a ^ b) % p = (a ^ (b % (p-1))) % p       (a and p are co-primes) // Derived from Fermat's Little Theorem: (a^(p-1)) % p = 1
+(a / b) % m != ((a % m) / (b % m)) % m
+(a / b) % m = ((a % m) * (mulInv(b) % m)) % m
+**/
 //1/3 is the multiplicative inverse of 3 (in Real Numbers)
 //x * mulInv(x) = 1
 //5 is the multiplicative inverse of 3 (mod 7), because (3 * 5) % 7 = 1
