@@ -5,6 +5,6 @@ class Solution:
         for word in words:
             dp[word] = 1
             for i in range(len(word)):
-                successor = word[:i] + word[i+1:]
-                dp[word] = max(dp[word], 1 + dp.get(successor, 0))
+                predecessor = word[:i] + word[i+1:]
+                dp[word] = max(dp[word], 1 + dp.get(predecessor, 0))
         return max(dp.values())
