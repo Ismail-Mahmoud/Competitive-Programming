@@ -1,26 +1,25 @@
-// https://leetcode.com/problems/132-pattern/
-
 class Solution {
 public:
-    bool find132pattern(vector<int>& A) {
-        int n = A.size();
-        vector<int> prev_greater(n, -1), pref_min(n);
-        stack<int> S;
-        pref_min[0] = A[0];
-        S.push(n - 1);
-        for(int i = n - 2; i >= 0; --i) {
-            while(!S.empty() && A[i] > A[S.top()]) {
-                prev_greater[S.top()] = i;
-                S.pop();
+    bool find132pattern(vector<int>& nums) {
+        int n = nums.size();
+        stack<int> stk;
+        vector<int> prev_greater(n, -1);
+        for(int i = n - 1; ~i; --i) {
+            while(!stk.empty() && nums[i] > nums[stk.top()]) {
+                prev_greater[stk.top()] = i;
+                stk.pop();
             }
-            S.push(i);
-            int j = n - i - 1;
-            pref_min[j] = min(pref_min[j - 1], A[j]);
+            stk.push(i);
+        }
+        vector<int> mn(n);
+        mn[0] = nums[0];
+        for(int i = 1; i < n; ++i) {
+            mn[i] = min(mn[i - 1], nums[i]);
         }
         for(int i = 0; i < n; ++i) {
             int p = prev_greater[i];
             if(p <= 0) continue;
-            if(pref_min[p - 1] < A[i]) {
+            if(mn[p - 1] < nums[i]) {
                 return true;
             }
         }
